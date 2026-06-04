@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PanditJi – Book a Trusted Pandit Near You</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Hind:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron: #E8601C;
+    --saffron-dark: #B84A12;
+    --saffron-light: #FFF3EB;
+    --gold: #D4A017;
+    --gold-light: #FFF8E1;
+    --maroon: #7B1B1B;
+    --cream: #FEF9F2;
+    --text: #1C1008;
+    --text-muted: #6B5744;
+    --border: #EDD9C4;
+    --white: #FFFFFF;
+    --green: #2E7D32;
+    --shadow: 0 2px 16px rgba(232,96,28,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hind', sans-serif; background: var(--cream); color: var(--text); }
+  h1,h2,h3,.logo { font-family: 'Yatra One', cursive; }
+  a { text-decoration: none; color: inherit; }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--white);
+    border-bottom: 2px solid var(--saffron);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px; position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(232,96,28,0.08);
+  }
+  .logo { font-size: 1.7rem; color: var(--saffron); letter-spacing: 1px; }
+  .logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+  .nav-links a { color: var(--text-muted); font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--saffron); }
+  .btn { padding: 0.5rem 1.25rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; transition: all 0.2s; font-family: 'Hind', sans-serif; }
+  .btn-primary { background: var(--saffron); color: #fff; }
+  .btn-primary:hover { background: var(--saffron-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; border: 1.5px solid var(--saffron); color: var(--saffron); }
+  .btn-outline:hover { background: var(--saffron-light); }
+  .hamburger { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--saffron); }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #7B1B1B 0%, #B84A12 40%, #E8601C 100%);
+    color: #fff; text-align: center; padding: 5rem 1.5rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: "ॐ";
+    font-size: 22rem; color: rgba(255,255,255,0.04);
+    position: absolute; top: -4rem; left: 50%; transform: translateX(-50%);
+    font-family: 'Yatra One', cursive; pointer-events: none;
+  }
+  .hero h1 { font-size: 3rem; margin-bottom: 0.75rem; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+  .hero p { font-size: 1.15rem; opacity: 0.9; max-width: 540px; margin: 0 auto 2rem; line-height: 1.7; }
+  .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 0.3rem 1rem; font-size: 0.85rem; margin-bottom: 1.2rem; }
+  .hero-search {
+    background: #fff; border-radius: 14px; padding: 0.5rem;
+    display: flex; gap: 0.5rem; max-width: 580px; margin: 0 auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  }
+  .hero-search input {
+    flex: 1; border: none; outline: none; padding: 0.6rem 1rem;
+    font-size: 1rem; color: var(--text); font-family: 'Hind', sans-serif;
+    border-radius: 10px;
+  }
+  .hero-search .btn { padding: 0.65rem 1.5rem; font-size: 1rem; border-radius: 10px; }
+  .hero-stats { display: flex; gap: 2.5rem; justify-content: center; margin-top: 2.5rem; flex-wrap: wrap; }
+  .hero-stats div { text-align: center; }
+  .hero-stats strong { display: block; font-size: 1.6rem; font-family: 'Yatra One', cursive; }
+  .hero-stats span { font-size: 0.82rem; opacity: 0.8; }
+
+  /* ── SECTION HEADER ── */
+  .section { padding: 4rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+  .section-title { text-align: center; margin-bottom: 2.5rem; }
+  .section-title h2 { font-size: 2rem; color: var(--maroon); margin-bottom: 0.4rem; }
+  .section-title p { color: var(--text-muted); font-size: 1rem; }
+  .divider { width: 60px; height: 3px; background: var(--saffron); border-radius: 3px; margin: 0.6rem auto 0; }
+
+  /* ── POOJAS GRID ── */
+  .poojas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.2rem; }
+  .pooja-card {
+    background: var(--white); border-radius: 14px; padding: 1.4rem;
+    border: 1.5px solid var(--border); transition: all 0.25s; cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .pooja-card:hover { border-color: var(--saffron); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(232,96,28,0.15); }
+  .pooja-icon { font-size: 2.2rem; margin-bottom: 0.8rem; }
+  .pooja-card h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+  .pooja-card .price { font-size: 0.88rem; color: var(--saffron); font-weight: 600; }
+  .pooja-card .duration { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; }
+  .badge-popular { font-size: 0.7rem; background: var(--saffron-light); color: var(--saffron); border-radius: 6px; padding: 2px 7px; font-weight: 600; float: right; }
+
+  /* ── HOW IT WORKS ── */
+  .how-bg { background: var(--gold-light); padding: 4rem 1.5rem; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; }
+  .step { text-align: center; }
+  .step-num { width: 54px; height: 54px; border-radius: 50%; background: var(--saffron); color: #fff; font-size: 1.4rem; font-family: 'Yatra One', cursive; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; box-shadow: 0 4px 12px rgba(232,96,28,0.3); }
+  .step h3 { font-size: 1rem; color: var(--maroon); margin-bottom: 0.3rem; }
+  .step p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── PRIESTS GRID ── */
+  .priests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.5rem; }
+  .priest-card {
+    background: var(--white); border-radius: 16px; padding: 1.5rem;
+    border: 1.5px solid var(--border); box-shadow: var(--shadow); transition: all 0.25s;
+  }
+  .priest-card:hover { border-color: var(--saffron); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(232,96,28,0.15); }
+  .priest-top { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
+  .priest-avatar { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--saffron-light), var(--gold-light)); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; border: 2px solid var(--gold); }
+  .priest-info h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.15rem; }
+  .priest-info .exp { font-size: 0.8rem; color: var(--text-muted); }
+  .stars { color: var(--gold); font-size: 0.85rem; margin: 0.2rem 0; }
+  .stars span { color: var(--text-muted); font-size: 0.78rem; }
+  .priest-specialties { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+  .tag { background: var(--saffron-light); color: var(--saffron-dark); font-size: 0.72rem; padding: 3px 8px; border-radius: 20px; font-weight: 500; }
+  .priest-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border); }
+  .priest-price { font-size: 0.9rem; color: var(--text-muted); }
+  .priest-price strong { color: var(--saffron); font-size: 1rem; }
+  .priest-location { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.7rem; }
+  .available-badge { font-size: 0.72rem; background: #E8F5E9; color: var(--green); border-radius: 6px; padding: 3px 8px; font-weight: 600; }
+
+  /* ── REGISTER SECTION ── */
+  .register-bg { background: linear-gradient(135deg, var(--maroon), #7B1B1B); padding: 4rem 1.5rem; text-align: center; color: #fff; }
+  .register-bg h2 { font-size: 2rem; margin-bottom: 0.75rem; }
+  .register-bg p { opacity: 0.85; max-width: 500px; margin: 0 auto 2rem; line-height: 1.7; }
+  .register-form-card { background: #fff; border-radius: 16px; padding: 2rem; max-width: 540px; margin: 0 auto; text-align: left; box-shadow: 0 8px 40px rgba(0,0,0,0.25); }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.8rem; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  input[type=text], input[type=email], input[type=tel], input[type=number], select, textarea {
+    padding: 0.6rem 0.85rem; border: 1.5px solid var(--border); border-radius: 8px;
+    font-size: 0.95rem; font-family: 'Hind', sans-serif; color: var(--text);
+    background: #fff; transition: border-color 0.2s; width: 100%;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--saffron); }
+  textarea { resize: vertical; min-height: 80px; }
+  .checkbox-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .checkbox-label { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: var(--text); cursor: pointer; }
+  .checkbox-label input[type=checkbox] { accent-color: var(--saffron); width: 15px; height: 15px; }
+  .submit-btn { width: 100%; padding: 0.85rem; background: var(--saffron); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 1rem; font-family: 'Hind', sans-serif; transition: background 0.2s; }
+  .submit-btn:hover { background: var(--saffron-dark); }
+
+  /* ── BOOKING MODAL ── */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.active { display: flex; }
+  .modal { background: var(--white); border-radius: 18px; padding: 2rem; width: 100%; max-width: 480px; box-shadow: 0 16px 60px rgba(0,0,0,0.3); animation: slideUp 0.3s ease; }
+  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .modal-header h3 { font-size: 1.3rem; color: var(--maroon); }
+  .close-btn { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted); transition: color 0.2s; }
+  .close-btn:hover { color: var(--saffron); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-bg { background: var(--saffron-light); padding: 4rem 1.5rem; }
+  .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+  .testi-card { background: var(--white); border-radius: 14px; padding: 1.5rem; border: 1px solid var(--border); }
+  .testi-quote { font-size: 2rem; color: var(--saffron); line-height: 1; margin-bottom: 0.5rem; }
+  .testi-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem; }
+  .testi-author { font-weight: 700; font-size: 0.9rem; }
+  .testi-city { font-size: 0.78rem; color: var(--text-muted); }
+
+  /* ── CHARGES TABLE ── */
+  .charges-table { width: 100%; border-collapse: collapse; }
+  .charges-table th { background: var(--maroon); color: #fff; padding: 0.8rem 1rem; text-align: left; font-size: 0.88rem; }
+  .charges-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  .charges-table tr:hover td { background: var(--saffron-light); }
+
+  /* ── FOOTER ── */
+  footer { background: #1C1008; color: #ccc; padding: 3rem 1.5rem 1.5rem; }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto 2rem; }
+  .footer-col h4 { color: var(--gold); font-family: 'Yatra One', cursive; font-size: 1.1rem; margin-bottom: 0.8rem; }
+  .footer-col a { display: block; color: #aaa; font-size: 0.88rem; margin-bottom: 0.4rem; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--saffron); }
+  .footer-bottom { text-align: center; font-size: 0.8rem; color: #666; border-top: 1px solid #333; padding-top: 1.2rem; max-width: 1000px; margin: 0 auto; }
+  .footer-logo { font-family: 'Yatra One', cursive; font-size: 1.5rem; color: var(--saffron); margin-bottom: 0.5rem; }
+
+  /* ── TOAST ── */
+  .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--green); color: #fff; padding: 0.85rem 1.5rem; border-radius: 10px; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 20px rgba(0,0,0,0.2); transform: translateY(80px); opacity: 0; transition: all 0.4s; z-index: 9999; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── LOCATION BAR ── */
+  .location-bar { background: var(--saffron); color: #fff; padding: 0.6rem 1.5rem; font-size: 0.88rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+  .location-bar button { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: #fff; padding: 3px 12px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; margin-left: 0.5rem; font-family: 'Hind', sans-serif; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .tab-btn { padding: 0.45rem 1rem; border-radius: 20px; border: 1.5px solid var(--border); background: #fff; font-family: 'Hind', sans-serif; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; color: var(--text-muted); }
+  .tab-btn.active, .tab-btn:hover { background: var(--saffron); color: #fff; border-color: var(--saffron); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 650px) {
+    .hero h1 { font-size: 2rem; }
+    .form-grid { grid-template-columns: 1fr; }
+    .hero-search { flex-direction: column; }
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    .charges-table th:last-child, .charges-table td:last-child { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOCATION BAR -->
+<div class="location-bar" id="locationBar">
+  📍 Detecting your location...
+  <button onclick="detectLocation()">Detect Now</button>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">🕉️ Pandit<span>Ji</span></div>
+  <div class="nav-links">
+    <a href="#poojas">Poojas</a>
+    <a href="#priests">Find Pandit</a>
+    <a href="#charges">Charges</a>
+    <a href="#register">Register</a>
+    <a href="#contact">Contact</a>
+    <button class="btn btn-primary" onclick="openBooking()">Book Now</button>
+  </div>
+  <button class="hamburger" onclick="toggleMenu()">☰</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🌸 Trusted by 5000+ families across India</div>
+  <h1>Book a Trusted Pandit<br>for Every Pooja</h1>
+  <p>Experienced Hindu priests for all religious ceremonies — at your home, at your doorstep, at your convenience.</p>
+  <div class="hero-search">
+    <input type="text" id="heroSearch" placeholder="🔍  Search by city, area, or pooja name..." />
+    <button class="btn btn-primary" onclick="searchPandits()">Find Pandit</button>
+  </div>
+  <div class="hero-stats">
+    <div><strong>1200+</strong><span>Registered Pandits</span></div>
+    <div><strong>50+</strong><span>Types of Poojas</span></div>
+    <div><strong>25+</strong><span>Cities Covered</span></div>
+    <div><strong>4.8⭐</strong><span>Average Rating</span></div>
+  </div>
+</section>
+
+<!-- POOJAS -->
+<div id="poojas">
+<div class="section">
+  <div class="section-title">
+    <h2>🪔 Our Pooja Services</h2>
+    <p>Choose from a wide range of religious ceremonies performed by experienced pandits</p>
+    <div class="divider"></div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="filterPoojas('all', this)">All Poojas</button>
+    <button class="tab-btn" onclick="filterPoojas('griha', this)">Griha Pravesh</button>
+    <button class="tab-btn" onclick="filterPoojas('vivah', this)">Vivah Sanskar</button>
+    <button class="tab-btn" onclick="filterPoojas('satyanarayan', this)">Satyanarayan</button>
+    <button class="tab-btn" onclick="filterPoojas('shanti', this)">Shanti Path</button>
+  </div>
+  <div class="poojas-grid" id="poojasGrid"></div>
+</div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-bg">
+  <div class="section-title">
+    <h2>🙏 How It Works</h2>
+    <p>Book your pandit in just 3 simple steps</p>
+    <div class="divider"></div>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Choose Your Pooja</h3>
+      <p>Browse our list of poojas and select the one you need for your occasion.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Select a Pandit</h3>
+      <p>View profiles, ratings, and prices of pandits near your location.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Confirm & Book</h3>
+      <p>Pick a date & time, confirm your booking, and we'll do the rest.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Pandit at Doorstep</h3>
+      <p>Your pandit arrives on time with all required pooja samagri guidance.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PRIESTS -->
+<div id="priests">
+<div class="section">
+  <div class="section-title">
+    <h2>👳 Pandits Near You</h2>
+    <p>Verified and experienced Hindu priests available for home visits</p>
+    <div class="divider"></div>
+  </div>
+  <div class="priests-grid" id="priestsGrid"></div>
+</div>
+</div>
+
+<!-- CHARGES TABLE -->
+<div id="charges" style="background: var(--gold-light); padding: 4rem 1.5rem;">
+<div class="section" style="padding: 0;">
+  <div class="section-title">
+    <h2>💰 Standard Charges</h2>
+    <p>Transparent pricing — no hidden costs. Final charges may vary by pandit and location.</p>
+    <div class="divider"></div>
+  </div>
+  <div style="overflow-x: auto; border-radius: 14px; box-shadow: var(--shadow);">
+  <table class="charges-table">
+    <thead>
+      <tr>
+        <th>Pooja / Ceremony</th>
+        <th>Duration</th>
+        <th>Starting Price</th>
+        <th>Includes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>🏠 Griha Pravesh</td><td>2–3 hours</td><td>₹2,100</td><td>Pandit + basic samagri list</td></tr>
+      <tr><td>💒 Vivah Sanskar (Wedding)</td><td>4–6 hours</td><td>₹5,100</td><td>Pandit + full vidhi</td></tr>
+      <tr><td>🕉️ Satyanarayan Katha</td><td>2–3 hours</td><td>₹1,500</td><td>Pandit + prasad guidance</td></tr>
+      <tr><td>👶 Namkaran Sanskar</td><td>1–2 hours</td><td>₹1,100</td><td>Pandit + certificate</td></tr>
+      <tr><td>🔥 Navgraha Shanti</td><td>3–4 hours</td><td>₹3,100</td><td>Pandit + havan samagri</td></tr>
+      <tr><td>🪔 Diwali Lakshmi Puja</td><td>1–2 hours</td><td>₹1,100</td><td>Pandit</td></tr>
+      <tr><td>🏡 Vastu Shanti</td><td>3–5 hours</td><td>₹4,100</td><td>Pandit + havan</td></tr>
+      <tr><td>⚰️ Antim Sanskar / Asthi</td><td>2–4 hours</td><td>₹2,500</td><td>Pandit + full vidhi</td></tr>
+      <tr><td>🌟 Mundan Ceremony</td><td>1–2 hours</td><td>₹1,100</td><td>Pandit</td></tr>
+      <tr><td>🎉 Upanayana / Janeu</td><td>3–5 hours</td><td>₹3,500</td><td>Pandit + full vidhi</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p style="text-align:center; font-size:0.82rem; color:var(--text-muted); margin-top: 1rem;">* Prices are starting estimates. Actual cost depends on ceremony complexity, travel distance, and pandit experience. GST may apply.</p>
+</div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testimonials-bg">
+  <div class="section-title">
+    <h2>💬 What Families Say</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <p>Pandit Ramesh ji performed our Griha Pravesh beautifully. He was very knowledgeable and punctual. Booking was so easy through this website!</p>
+      <div class="testi-author">Sunita Verma</div>
+      <div class="testi-city">📍 Noida, Delhi NCR</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <p>We found a wonderful pandit for our son's Namkaran through PanditJi. The ceremony was perfect and the charges were very reasonable.</p>
+      <div class="testi-author">Rajesh Sharma</div>
+      <div class="testi-city">📍 Gurugram, Haryana</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <p>Excellent service! Pandit ji came on time for the Satyanarayan Katha and explained everything so well. Highly recommend to everyone.</p>
+      <div class="testi-author">Priya Gupta</div>
+      <div class="testi-city">📍 Varanasi, UP</div>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER SECTION -->
+<div class="register-bg" id="register">
+  <h2>🕉️ Are You a Pandit?</h2>
+  <p>Join our community of 1200+ pandits and start receiving bookings from families near you. Free registration!</p>
+  <div class="register-form-card">
+    <h3 style="color: var(--maroon); font-family: 'Yatra One', cursive; font-size: 1.4rem; margin-bottom: 1.2rem; text-align: center;">Pandit Registration Form</h3>
+    <form id="registerForm" onsubmit="submitRegister(event)">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" placeholder="Pandit Ramesh Sharma" required>
+        </div>
+        <div class="form-group">
+          <label>Mobile Number *</label>
+          <input type="tel" placeholder="9876543210" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="pandit@email.com">
+        </div>
+        <div class="form-group">
+          <label>Experience (Years) *</label>
+          <input type="number" placeholder="10" min="1" required>
+        </div>
+        <div class="form-group">
+          <label>City / Area *</label>
+          <input type="text" placeholder="Delhi, Varanasi..." required>
+        </div>
+        <div class="form-group">
+          <label>Languages Known</label>
+          <input type="text" placeholder="Sanskrit, Hindi, English">
+        </div>
+        <div class="form-group full">
+          <label>Specialisation (Select all that apply)</label>
+          <div class="checkbox-row">
+            <label class="checkbox-label"><input type="checkbox" value="griha"> Griha Pravesh</label>
+            <label class="checkbox-label"><input type="checkbox" value="vivah"> Vivah</label>
+            <label class="checkbox-label"><input type="checkbox" value="satyanarayan"> Satyanarayan</label>
+            <label class="checkbox-label"><input type="checkbox" value="navgraha"> Navgraha</label>
+            <label class="checkbox-label"><input type="checkbox" value="vastu"> Vastu Shanti</label>
+            <label class="checkbox-label"><input type="checkbox" value="antim"> Antim Sanskar</label>
+            <label class="checkbox-label"><input type="checkbox" value="namkaran"> Namkaran</label>
+            <label class="checkbox-label"><input type="checkbox" value="other"> Other</label>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label>About Yourself</label>
+          <textarea placeholder="Briefly describe your qualifications, experience, and the poojas you specialize in..."></textarea>
+        </div>
+      </div>
+      <button type="submit" class="submit-btn">✅ Submit Registration</button>
+    </form>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" style="padding: 4rem 1.5rem; max-width: 700px; margin: 0 auto; text-align: center;">
+  <div class="section-title">
+    <h2>📞 Contact Us</h2>
+    <p>Need help booking or have questions? We're here for you.</p>
+    <div class="divider"></div>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+    <div style="background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 1.5rem;">
+      <div style="font-size: 2rem; margin-bottom: 0.5rem;">📞</div>
+      <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem;">Call Us</div>
+      <div style="color: var(--saffron); font-weight: 600;">+91 98765 43210</div>
+    </div>
+    <div style="background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 1.5rem;">
+      <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
+      <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem;">WhatsApp</div>
+      <div style="color: var(--saffron); font-weight: 600;">+91 98765 43210</div>
+    </div>
+    <div style="background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 1.5rem;">
+      <div style="font-size: 2rem; margin-bottom: 0.5rem;">📧</div>
+      <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem;">Email</div>
+      <div style="color: var(--saffron); font-weight: 600;">info@panditji.in</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-logo">🕉️ PanditJi</div>
+      <p style="font-size: 0.82rem; color: #888; line-height: 1.7;">India's trusted platform for booking experienced Hindu pandits for all religious ceremonies.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#poojas">Pooja Services</a>
+      <a href="#priests">Find Pandits</a>
+      <a href="#charges">Charges</a>
+      <a href="#register">Register as Pandit</a>
+    </div>
+    <div class="footer-col">
+      <h4>Popular Poojas</h4>
+      <a href="#">Griha Pravesh</a>
+      <a href="#">Vivah Sanskar</a>
+      <a href="#">Satyanarayan Katha</a>
+      <a href="#">Navgraha Shanti</a>
+    </div>
+    <div class="footer-col">
+      <h4>Cities We Serve</h4>
+      <a href="#">Delhi NCR</a>
+      <a href="#">Mumbai</a>
+      <a href="#">Varanasi</a>
+      <a href="#">Jaipur</a>
+      <a href="#">Bangalore</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 PanditJi.in — Made with 🙏 for the Hindu community | All rights reserved</p>
+  </div>
+</footer>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🙏 Book a Pandit</h3>
+      <button class="close-btn" onclick="closeBooking()">✕</button>
+    </div>
+    <form onsubmit="submitBooking(event)">
+      <div class="form-group">
+        <label>Your Name *</label>
+        <input type="text" placeholder="Full Name" required>
+      </div>
+      <div class="form-group">
+        <label>Mobile Number *</label>
+        <input type="tel" placeholder="10-digit mobile number" required>
+      </div>
+      <div class="form-group">
+        <label>Select Pooja *</label>
+        <select required>
+          <option value="">-- Choose Pooja --</option>
+          <option>Griha Pravesh</option>
+          <option>Vivah Sanskar</option>
+          <option>Satyanarayan Katha</option>
+          <option>Namkaran Sanskar</option>
+          <option>Navgraha Shanti</option>
+          <option>Diwali Lakshmi Puja</option>
+          <option>Vastu Shanti</option>
+          <option>Mundan Ceremony</option>
+          <option>Antim Sanskar</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="form-group">
+          <label>Date *</label>
+          <input type="date" required>
+        </div>
+        <div class="form-group">
+          <label>Time *</label>
+          <input type="time" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Your Address / Area *</label>
+        <input type="text" placeholder="Area, City, Pincode" required>
+      </div>
+      <button type="submit" class="submit-btn">Confirm Booking 🙏</button>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const poojas = [
+  { id: 'griha', icon: '🏠', name: 'Griha Pravesh', price: '₹2,100 onwards', duration: '2–3 hours', popular: true },
+  { id: 'vivah', icon: '💒', name: 'Vivah Sanskar', price: '₹5,100 onwards', duration: '4–6 hours', popular: true },
+  { id: 'satyanarayan', icon: '🕉️', name: 'Satyanarayan Katha', price: '₹1,500 onwards', duration: '2–3 hours', popular: true },
+  { id: 'shanti', icon: '🔥', name: 'Navgraha Shanti', price: '₹3,100 onwards', duration: '3–4 hours' },
+  { id: 'griha', icon: '🏡', name: 'Vastu Shanti', price: '₹4,100 onwards', duration: '3–5 hours' },
+  { id: 'vivah', icon: '🌟', name: 'Mundan Ceremony', price: '₹1,100 onwards', duration: '1–2 hours' },
+  { id: 'satyanarayan', icon: '🪔', name: 'Diwali Lakshmi Puja', price: '₹1,100 onwards', duration: '1–2 hours', popular: true },
+  { id: 'shanti', icon: '👶', name: 'Namkaran Sanskar', price: '₹1,100 onwards', duration: '1–2 hours' },
+  { id: 'griha', icon: '⚰️', name: 'Antim Sanskar', price: '₹2,500 onwards', duration: '2–4 hours' },
+  { id: 'vivah', icon: '🎉', name: 'Upanayana / Janeu', price: '₹3,500 onwards', duration: '3–5 hours' },
+  { id: 'satyanarayan', icon: '📿', name: 'Rudrabhishek', price: '₹2,500 onwards', duration: '2–3 hours' },
+  { id: 'shanti', icon: '🌺', name: 'Sunderkand Path', price: '₹1,500 onwards', duration: '3–4 hours' },
+];
+
+const priests = [
+  { name: 'Pt. Ramesh Kumar Sharma', emoji: '👳', exp: '22 years experience', rating: 4.9, reviews: 312, specs: ['Griha Pravesh', 'Vivah', 'Vastu'], price: '₹2,100', location: 'Dwarka, New Delhi', available: true },
+  { name: 'Pt. Dinesh Mishra', emoji: '🙏', exp: '15 years experience', rating: 4.8, reviews: 198, specs: ['Satyanarayan', 'Navgraha', 'Havan'], price: '₹1,800', location: 'Rohini, Delhi', available: true },
+  { name: 'Pt. Suresh Tripathi', emoji: '🕉️', exp: '30 years experience', rating: 5.0, reviews: 521, specs: ['Vivah', 'Antim Sanskar', 'Pind Daan'], price: '₹3,500', location: 'Varanasi, UP', available: true },
+  { name: 'Pt. Mahesh Joshi', emoji: '🌸', exp: '12 years experience', rating: 4.7, reviews: 143, specs: ['Namkaran', 'Mundan', 'Annaprashan'], price: '₹1,200', location: 'Gurugram, Haryana', available: false },
+  { name: 'Pt. Anil Pathak', emoji: '🔱', exp: '18 years experience', rating: 4.8, reviews: 267, specs: ['Vastu', 'Kaal Sarp', 'Navgraha'], price: '₹2,800', location: 'Noida, UP', available: true },
+  { name: 'Pt. Gopal Tiwari', emoji: '🪔', exp: '25 years experience', rating: 4.9, reviews: 389, specs: ['Satyanarayan', 'Rudrabhishek', 'Puja'], price: '₹2,000', location: 'Jaipur, Rajasthan', available: true },
+];
+
+function renderPoojas(filter = 'all') {
+  const grid = document.getElementById('poojasGrid');
+  const filtered = filter === 'all' ? poojas : poojas.filter(p => p.id === filter);
+  grid.innerHTML = filtered.map(p => `
+    <div class="pooja-card" onclick="openBooking('${p.name}')">
+      ${p.popular ? '<span class="badge-popular">Popular</span>' : ''}
+      <div class="pooja-icon">${p.icon}</div>
+      <h3>${p.name}</h3>
+      <div class="price">${p.price}</div>
+      <div class="duration">⏱ ${p.duration}</div>
+    </div>
+  `).join('');
+}
+
+function renderPriests() {
+  const grid = document.getElementById('priestsGrid');
+  grid.innerHTML = priests.map(p => `
+    <div class="priest-card">
+      <div class="priest-top">
+        <div class="priest-avatar">${p.emoji}</div>
+        <div class="priest-info">
+          <h3>${p.name}</h3>
+          <div class="exp">${p.exp}</div>
+          <div class="stars">${'★'.repeat(Math.round(p.rating))} <span>(${p.reviews} reviews)</span></div>
+        </div>
+      </div>
+      <div class="priest-location">📍 ${p.location}</div>
+      <div class="priest-specialties">${p.specs.map(s => `<span class="tag">${s}</span>`).join('')}</div>
+      <div class="priest-footer">
+        <div class="priest-price">From <strong>${p.price}</strong></div>
+        <div>
+          ${p.available ? '<span class="available-badge">✅ Available</span>' : '<span style="font-size:0.72rem;color:#999;">Busy today</span>'}
+          <button class="btn btn-primary" style="margin-left:0.5rem; padding:0.35rem 0.9rem; font-size:0.8rem;" onclick="openBooking()">Book</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterPoojas(type, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPoojas(type);
+}
+
+function openBooking(poojaName) {
+  document.getElementById('bookingModal').classList.add('active');
+  if (poojaName) {
+    const sel = document.querySelector('#bookingModal select');
+    for (let opt of sel.options) { if (opt.text === poojaName) { opt.selected = true; break; } }
+  }
+}
+function closeBooking() { document.getElementById('bookingModal').classList.remove('active'); }
+
+function submitBooking(e) {
+  e.preventDefault();
+  closeBooking();
+  showToast('🙏 Booking request received! We will call you within 30 minutes.');
+}
+
+function submitRegister(e) {
+  e.preventDefault();
+  showToast('✅ Registration submitted! We will verify your profile within 24 hours.');
+  document.getElementById('registerForm').reset();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4500);
+}
+
+function detectLocation() {
+  const bar = document.getElementById('locationBar');
+  bar.innerHTML = '📍 Detecting...';
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => { bar.innerHTML = '📍 Location detected: Showing pandits near you &nbsp;<button onclick="document.getElementById(\'priests\').scrollIntoView({behavior:\'smooth\'})">View Pandits</button>'; },
+      () => { bar.innerHTML = '📍 Delhi NCR (default) &nbsp;<button onclick="detectLocation()">Retry</button>'; }
+    );
+  } else {
+    bar.innerHTML = '📍 Delhi NCR (default)';
+  }
+}
+
+function searchPandits() {
+  const q = document.getElementById('heroSearch').value.trim();
+  if (q) {
+    document.getElementById('priests').scrollIntoView({ behavior: 'smooth' });
+    showToast(`🔍 Showing pandits for "${q}"`);
+  }
+}
+
+function toggleMenu() {
+  const nl = document.querySelector('.nav-links');
+  nl.style.display = nl.style.display === 'flex' ? 'none' : 'flex';
+  nl.style.flexDirection = 'column';
+  nl.style.position = 'absolute';
+  nl.style.top = '64px';
+  nl.style.right = '1rem';
+  nl.style.background = '#fff';
+  nl.style.padding = '1rem';
+  nl.style.boxShadow = '0 4px 16px rgba(0,0,0,0.1)';
+  nl.style.borderRadius = '12px';
+  nl.style.zIndex = '200';
+}
+
+renderPoojas();
+renderPriests();
+detectLocation();
+
+document.getElementById('bookingModal').addEventListener('click', function(e) {
+  if (e.target === this) closeBooking();
+});
+</script>
+</body>
+</html>
